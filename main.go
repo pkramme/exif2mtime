@@ -37,7 +37,11 @@ func main() {
 		log.Println(path, "exif creation date", creationDate)
 
 		if *flagDoIt {
-			os.Chtimes(path, tZero, creationDate)
+			err = os.Chtimes(path, tZero, creationDate)
+			if err != nil {
+				log.Println(path, err)
+				continue
+			}
 
 			if *flagFixExt && filepath.Ext(path) != ".jpg" {
 				ext := filepath.Ext(path)
